@@ -17,7 +17,7 @@ export default function Register(){
         output.append('surname', surname);
         output.append('username', username);
         output.append('password', password);
-        fetch('http://localhost:8088/registration', {
+        fetch('http://host.docker.internal:8088/registration', {
             method: 'POST',
             body: output
         }).then((res) => {

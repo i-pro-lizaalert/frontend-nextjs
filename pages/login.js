@@ -11,7 +11,7 @@ export default function Login(){
     const handleSubmit = (event)=> {
         event.preventDefault();
         console.log(username,password)
-        fetch('http://localhost:8088/login', {
+        fetch('http://host.docker.internal:8088/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
