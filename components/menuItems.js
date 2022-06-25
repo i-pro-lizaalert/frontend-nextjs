@@ -52,6 +52,12 @@ export function PhotoItems(props){
                 </ListItemIcon>
                 <ListItemText primary='Все фотографии'/>
             </ListItemButton>
+            <ListItemButton selected={props.select == 3} onClick={allPhotos}>
+                <ListItemIcon>
+                    <TagIcon />
+                </ListItemIcon>
+                <ListItemText primary='Автоматическое проставление тегов'/>
+            </ListItemButton>
         </React.Fragment>
     );
 }

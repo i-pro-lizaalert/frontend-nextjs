@@ -1,41 +1,76 @@
-import {DialogTitle, Dialog, List, ListItem, ListItemAvatar, Avatar, ListItemText} from "@mui/material";
+import {
+    DialogTitle,
+    Dialog,
+    List,
+    ListItem,
+    ListItemAvatar,
+    Avatar,
+    ListItemText,
+    TextField,
+    Button, DialogContent, Box, Typography, Paper, Divider
+} from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
-import {useState} from "react";
-function AddFileDialog(props) {
-    const { onClose, selectedValue, open } = props;
-    const [chosen, setChosen] = useState({})
+import {useState, useEffect} from "react";
+export function AddFileDialog(props) {
+    const { onClose, open } = props;
+    const [name, setName] = useState('')
+    const [data, setData] = useState([])
     const handleClose = () => {
-        onClose(selectedValue);
+        onClose('');
     };
-
-    const handleListItemClick = (value) => {
-        onClose(value);
-    };
-
+    const handleGoodClose = () =>{
+        onClose(name)
+    }
+    useEffect(()=>{
+        fetch(`${window.location.origin}:8088/list`).then(r=>{
+            if(r.status == 200){
+                r.json().then(r=>{
+                    console.log(r);
+                    setData(r);
+                })
+            }
+        })
+    },[])
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Выберете файлы</DialogTitle>
-            <List sx={{ pt: 0 }}>
-                {emails.map((email) => (
-                    <ListItem button onClick={() => handleListItemClick(email)} key={email}>
-                        <ListItemAvatar>
-                            <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                                <PersonIcon />
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary={email} />
-                    </ListItem>
-                ))}
-                <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <AddIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Add account" />
-                </ListItem>
-            </List>
+            <DialogTitle>Выберете фотографию в кейс</DialogTitle>
+            <DialogContent>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row'
+                }}>
+                    <Box sx={{m:1}}>
+                        <TextField
+                            margin='normal'
+                            required
+                            fullWidth
+                            label='Путь к фотографии'
+                            value={name}
+                            onChange={(e) => {setName(e.target.value)}}
+                        />
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            onClick={()=>{handleGoodClose()}}
+                        >
+                            Готово
+                        </Button>
+                    </Box>
+                    <Box sx={{m:1}}>
+                        <Typography variant='h6'>
+                            Файлы:
+                        </Typography>
+                        <Divider sx={{mb: 2}}/>
+                        {data.map((r)=>
+                            <Typography key={r}>
+                                {r}
+                            </Typography>
+                        )}
+                    </Box>
+                </Box>
+            </DialogContent>
         </Dialog>
     );
 }

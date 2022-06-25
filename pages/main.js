@@ -29,6 +29,7 @@ import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import {AddCaseDialog} from '/components/dialog_add_case'
 import {SearchDialog} from "/components/dialog_search_tags"
 import {AddTagDialog} from '/components/dialog_add_tag'
+import {AddFileDialog} from "../components/dialog_add_files";
 
 const theme = createTheme();
 
@@ -37,6 +38,7 @@ export default function AllCases(){
     const [searchOpen, setSearchOpen] = useState(false);
     const [addCase, setAddCase] = useState(false);
     const [addTag, setAddTag] = useState(false);
+    const [addFile, setAddFile] = useState(false);
     const [data, setData] = useState([]);
     const [title, setTitle] = useState('Кейс')
     const [once, setOnce] = useState(0)
@@ -47,9 +49,39 @@ export default function AllCases(){
         console.log(val)
         setAddCase(false);
     }
-    const handleCloseAddTag = (val) =>{
+    const handleCloseAddFile = (val) => {
         console.log(val)
+        setAddFile(false)
+    }
+    const handleCloseAddTag = (tag) =>{
+        console.log(tag)
         setAddTag(false);
+        fetch(`${window.location.origin}:8088/file/tags`,{
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    "file": {
+                        "path": localStorage.getItem('path')
+                    },
+                    "tags": [
+                        {
+                            "name": tag
+                        }
+                    ]
+                }
+            )
+        }).then(r=>{
+            if(r.status == 200){
+                r.json().then(r=>{
+                    console.log(r)
+                    document.location.href='/main'
+                })
+            }
+        })
     }
     const handleCloseSearch = (val) => {
         console.log(val)
@@ -199,12 +231,13 @@ export default function AllCases(){
                     <WorkspacesIcon sx={{ mr: 1 }} />
                     Сгруппировать
                 </Fab>
-                <Fab variant="extended" sx={{m:1}}>
+                <Fab variant="extended" sx={{m:1}} onClick={()=>{setAddFile(true)}}>
                     <AddIcon sx={{ mr: 1 }} />
                     Добавить
                 </Fab>
                 <SearchDialog open={searchOpen} onClose={handleCloseSearch}/>
                 <AddTagDialog open={addTag} onClose={handleCloseAddTag}/>
+                <AddFileDialog open={addFile} onClose={handleCloseAddFile}/>
             </Box>
         </ThemeProvider>
     );

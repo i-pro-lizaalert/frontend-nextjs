@@ -60,6 +60,10 @@ export default function Photo(props) {
                 <CardActions>
                     <Button size="small" onClick={handleDelete}>Исключить фото</Button>
                     <Button size="small" href={props.photo}>Скачать фото</Button>
+                    <Button size="small" onClick={()=>{
+                        localStorage.setItem('path', props.source);
+                        props.addTagDialogOpen();
+                    }}>Добавить тег</Button>
                 </CardActions>
             </Card>
         </Rnd>
