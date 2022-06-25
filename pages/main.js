@@ -117,7 +117,7 @@ export default function AllCases(){
                 height: '10000px'
             }}>
                 {data.map(r=>
-                    <Photo photo={`${window.location.origin}:8088/`+r.path} tags={[]}></Photo>
+                    <Photo key={r.path} photo={`${window.location.origin}:8088/`+r.path} tags={[]}></Photo>
                 )}
             </Container>
             <Fab variant="extended" sx={{
