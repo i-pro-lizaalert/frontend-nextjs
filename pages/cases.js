@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {CaseItems, PhotoItems} from '/components/menuItems'
 import AddIcon from '@mui/icons-material/Add';
 import Case from '/components/case'
@@ -31,61 +31,58 @@ export default function AllCases(){
     const toggleDrawer = () => {
         setOpen(!open);
     };
-    const handleClose = (val) => {
+    const handleClose = (val) =>
+    {
         console.log(val)
         setAddCase(false);
+        if (val){
+            fetch(`${window.location.origin}:8088/case`,{
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({name: val})
+            }).then(r=>{
+                if(r.status == 200){
+                    r.json().then(r=>{
+                        console.log(r)
+                        fetch(`${window.location.origin}:8088/user/case`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({id: r})
+                        }).then(r=>{
+                            if(r.status == 200){
+                                document.location.href='/cases'
+                            }
+                        })
+                    })
+                }
+            })
+        }
     }
-    let data = [
-        {
-            name: 'Необработанное',
-            photos: 120,
-            participated: 23,
-            action: 2,
-        },
-        {
-            name: 'Для СМИ',
-            photos: 1231,
-            participated: 5,
-            action: 2,
-        },
-        {
-            name: 'Волонтеры',
-            photos: 1002,
-            participated: 23,
-            action: 2,
-        },
-        {
-            name: 'Наши люди',
-            photos: 542,
-            participated: 100,
-            action: 1,
-        },
-        {
-            name: 'Лесной поход',
-            photos: 14,
-            participated: 3,
-            action: 1,
-        },
-        {
-            name: 'Весенние вылазки',
-            photos: 300,
-            participated: 43,
-            action: 2,
-        },
-        {
-            name: 'Водные поиски',
-            photos: 200,
-            participated: 14,
-            action: 1,
-        },
-        {
-            name: 'Зимние поиски',
-            photos: 312,
-            participated: 36,
-            action: 2,
-        },
+    function handleClick(id){
 
-    ]
+    }
+    const [data, setData] = useState([]);
+    useEffect(()=>{
+        fetch(`${window.location.origin}:8088/case/all`).then(r=>{
+            if(r.status == 200){
+                r.json().then(r=>{
+                    console.log(r)
+                    setData(r);
+                })
+            }else{
+                r.json().then(r=>{
+                    console.log(r)
+                })
+            }
+        })
+    },[])
+
     return (
         <ThemeProvider theme={theme}>
             <AppBar position='static'>
@@ -133,7 +130,7 @@ export default function AllCases(){
                 width: '100%',
             }}>
                 {data.map(res=>
-                    <Case key={res.name} name={res.name} photos={res.photos} participated={res.participated} action={res.action}/>
+                    <Case key={res.name} id={res.id} name={res.name} photos={res.photos} action={2} handleClick={handleClick} participated={res.participated}/>
                 )}
             </Container>
             <Fab variant="extended" sx={{

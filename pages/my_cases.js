@@ -31,8 +31,27 @@ export default function AllCases(){
         setOpen(!open);
     };
     const [data, setData] = useState([]);
+    function handleClick(id) {
+        console.log(id)
+        fetch(`${window.location.origin}:8088/user/case`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id: id})
+        }).then(r=>{
+            if(r.status == 200){
+                document.location.href='/my_cases'
+            }else{
+                r.json().then(r=>{
+                    console.log(r)
+                })
+            }
+        })
+    }
     useEffect(()=>{
-        fetch(`${window.location.origin}:8088/case/all`, {
+        fetch(`${window.location.origin}:8088/user/case/all`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -40,6 +59,7 @@ export default function AllCases(){
             if(r.status == 200){
                 r.json().then(r=>{
                     console.log(r)
+                    setData(r);
                 })
             }else{
                 r.json().then(r=>{
@@ -112,7 +132,7 @@ export default function AllCases(){
                 width: '100%',
             }}>
                 {data.map(res=>
-                    <Case key={res.name} name={res.name} photos={res.photos} participated={res.participated}/>
+                    <Case key={res.name} id={res.id} name={res.name} photos={res.photos} action={1} handleClick={handleClick} participated={res.participated}/>
                 )}
             </Container>
             {/*<Fab variant="extended" sx={{*/}

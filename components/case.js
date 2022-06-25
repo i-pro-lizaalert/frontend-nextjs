@@ -2,6 +2,10 @@ import {Box, Button, Card, Typography} from "@mui/material";
 
 
 export default function Case(props){
+    function redirect(){
+        localStorage.setItem('case_id', props.id)
+        document.location.href='/main'
+    }
     return (
         <Card sx={{
             m: 2,
@@ -38,11 +42,18 @@ export default function Case(props){
                 </Typography>
             </Box>
             <Box sx={{
-                display: 'flex'
+                display: 'flex',
+                justifyContent: 'space-around'
             }}>
-                <Button sx={{m:'auto', mt:2}} variant="text">
-                    {(props.action == 1)? 'Учавствовать' : 'Перейти'}
+                <Button sx={{m:'auto', mt:2}} variant="text" onClick={redirect}>
+                    Перейти
                 </Button>
+                {(props.action==1)?
+                    <Button sx={{m:'auto', mt:2}} variant="text" onClick={()=>{props.handleClick(props.id)}}>
+                        Удалить
+                    </Button>:
+                    <div></div>
+                }
             </Box>
         </Card>
     );
