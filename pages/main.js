@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {CaseItems, PhotoItems} from '/components/menuItems'
 import AddIcon from '@mui/icons-material/Add';
 import Case from '/components/case'
@@ -31,6 +31,7 @@ const theme = createTheme();
 export default function AllCases(){
     const [open, setOpen] = useState(false);
     const [addCase, setAddCase] = useState(false);
+    const [data, setData] = useState([]);
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -38,6 +39,36 @@ export default function AllCases(){
         console.log(val)
         setAddCase(false);
     }
+    useEffect(()=>{
+        if(localStorage.case_id)
+            fetch(`${window.location.origin}:8088/case/file?case_id=${localStorage.case_id}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                }
+            }).then(r=>{
+                if(r.status == 200){
+                    r.json().then(r=>{
+                        let temp = [];
+                        r.forEach(e=>{
+                            temp.push(fetch(`${window.location.origin}:8088/file?path=${e}`))
+                        })
+                        console.log(temp);
+                        Promise.all(temp).then(responses=>{
+                            responses.forEach(res=>{
+                                res.json().then(res=>{
+                                    setData(state => [...state, res])
+                                })
+                            })
+                        })
+                    })
+                }else{
+                    r.json().then(r=>{
+                        console.log(r)
+                    })
+                }
+            })
+    },[])
     return (
         <ThemeProvider theme={theme}>
             <AppBar position='static'>
@@ -68,9 +99,9 @@ export default function AllCases(){
                         </Toolbar>
                         <Divider />
                         <List component="nav">
-                            <CaseItems select={1}/>
+                            <CaseItems select={3}/>
                             <Divider sx={{ my: 1 }} />
-                            <PhotoItems select={1}/>
+                            <PhotoItems select={3}/>
                         </List>
                     </Drawer>
                     <Typography variant='h6' sx={{flexGrow: 1}}>
@@ -85,7 +116,9 @@ export default function AllCases(){
                 width: '100%',
                 height: '10000px'
             }}>
-                {/*<Photo/>*/}
+                {data.map(r=>
+                    <Photo photo={`${window.location.origin}:8088/`+r.path} tags={[]}></Photo>
+                )}
             </Container>
             <Fab variant="extended" sx={{
                 position:'fixed',

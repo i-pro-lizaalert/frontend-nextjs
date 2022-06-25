@@ -4,7 +4,18 @@ import {Box, Button, Card, Typography} from "@mui/material";
 export default function Case(props){
     function redirect(){
         localStorage.setItem('case_id', props.id)
-        document.location.href='/main'
+        fetch(`${window.location.origin}:8088/user/case`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id: props.id})
+        }).then(r=>{
+            if(r.status == 200){
+                document.location.href='/main'
+            }
+        })
     }
     return (
         <Card sx={{

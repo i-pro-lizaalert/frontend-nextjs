@@ -34,7 +34,7 @@ export function PhotoItems(props){
             <Typography variant='h6' color='inherit' sx={{ml: 2, mt: 2, mb: 1}}>
                 Фотографии
             </Typography>
-            <ListItemButton selected={props.select == 3}>
+            <ListItemButton selected={props.select == 3} href='/main'>
                 <ListItemIcon>
                     <InsertPhotoIcon />
                 </ListItemIcon>

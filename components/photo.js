@@ -37,7 +37,7 @@ export default function Photo(props) {
                 </CardContent>
                 <CardActions>
                     <Button size="small">Удалить фото</Button>
-                    <Button size="small">Learn More</Button>
+                    <Button size="small">Скачать фото</Button>
                 </CardActions>
             </Card>
         </Rnd>
