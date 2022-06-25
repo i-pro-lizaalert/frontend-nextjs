@@ -21,7 +21,7 @@ export default function Login(){
             if (res.status == 200) {
                 res.json().then((res) => {
                     localStorage.setItem('token', res['access_token']);
-                    document.location.href = '/login'
+                    document.location.href = '/cases'
                 })
             } else {
                 res.json().then((res) => {

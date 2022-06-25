@@ -128,7 +128,7 @@ export default function AllCases(){
                 width: '100%',
             }}>
                 {data.map(res=>
-                    <Case name={res.name} photos={res.photos} participated={res.participated} action={res.action}/>
+                    <Case key={res.name} name={res.name} photos={res.photos} participated={res.participated} action={res.action}/>
                 )}
             </Container>
             <Fab variant="extended" sx={{

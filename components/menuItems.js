@@ -12,13 +12,13 @@ export function CaseItems  (props) {
             <Typography variant='h6' color='inherit' sx={{ml: 2, my: 1}}>
                 Кейсы
             </Typography>
-            <ListItemButton selected={props.select == 1}>
+            <ListItemButton selected={props.select == 1} to={'/cases'}>
                 <ListItemIcon>
                     <WorkOutlineIcon />
                 </ListItemIcon>
                 <ListItemText primary='Все кейсы'/>
             </ListItemButton>
-            <ListItemButton selected={props.select == 2}>
+            <ListItemButton selected={props.select == 2} to={'my_cases'}>
                 <ListItemIcon>
                     <WorkIcon />
                 </ListItemIcon>
