@@ -28,6 +28,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import {AddCaseDialog} from '/components/dialog_add_case'
 import {SearchDialog} from "/components/dialog_search_tags"
+import {AddTagDialog} from '/components/dialog_add_tag'
 
 const theme = createTheme();
 
@@ -35,7 +36,9 @@ export default function AllCases(){
     const [open, setOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [addCase, setAddCase] = useState(false);
+    const [addTag, setAddTag] = useState(false);
     const [data, setData] = useState([]);
+    const [title, setTitle] = useState('Кейс')
     const [once, setOnce] = useState(0)
     const toggleDrawer = () => {
         setOpen(!open);
@@ -44,25 +47,21 @@ export default function AllCases(){
         console.log(val)
         setAddCase(false);
     }
+    const handleCloseAddTag = (val) =>{
+        console.log(val)
+        setAddTag(false);
+    }
     const handleCloseSearch = (val) => {
         console.log(val)
         setSearchOpen(false);
-        fetch(`${window.location.origin}:8088/file/search?tags=string&tags=string2`).then(r=>{
+        val = val.split(',').map(r=>{return `tags=${r}`}).join('&')
+        fetch(`${window.location.origin}:8088/file/search?${val}`).then(r=>{
             if(r.status == 200){
                 r.json().then(r=>{
                     console.log(r)
-                    fetch(`${window.location.origin}:8088/user/case`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({id: r})
-                    }).then(r=>{
-                        if(r.status == 200){
-                            document.location.href='/cases'
-                        }
-                    })
+                    localStorage.setItem('photos', JSON.stringify(r))
+                    localStorage.setItem('title', 'Результаты')
+                    document.location.href='/main'
                 })
             }
         })
@@ -71,6 +70,10 @@ export default function AllCases(){
         if (!once) {
             setData([]);
             console.log(localStorage.photos)
+            if (localStorage.title){
+                setTitle(localStorage.title)
+                localStorage.removeItem('title')
+            }
             if (localStorage.photos){
                 console.log('here')
                 let temp = [];
@@ -159,7 +162,7 @@ export default function AllCases(){
                         </List>
                     </Drawer>
                     <Typography variant='h6' sx={{flexGrow: 1}}>
-                        Все кейсы
+                        {title}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -170,11 +173,14 @@ export default function AllCases(){
                 width: '100%',
                 height: '10000px'
             }}>
-                {data.forEach(r=>{
-                    console.log(r);
-                })}
                 {[...new Set(data)].map(r=>
-                    <Photo source={r.photo.source} key={r.path} photo={`${window.location.origin}:8088/`+r.path} tags={r.tags}></Photo>
+                    <Photo
+                        source={r.photo.source}
+                        key={r.path}
+                        photo={`${window.location.origin}:8088/`+r.path}
+                        tags={r.tags}
+                        addTagDialogOpen = {()=>{setAddTag(true)}}
+                    ></Photo>
                 )}
             </Container>
             <Box sx={{
@@ -185,11 +191,11 @@ export default function AllCases(){
                 bottom: '3em',
                 right: '3em'
             }}>
-                <Fab variant="extended" sx={{m:1}}>
+                <Fab variant="extended" sx={{m:1}} onClick={()=>{setSearchOpen(true)}}>
                     <SearchIcon sx={{ mr: 1 }} />
                     Поиск по тегам
                 </Fab>
-                <Fab variant="extended" sx={{m:1}} onClick={()=>{setSearchOpen(true)}}>
+                <Fab variant="extended" sx={{m:1}}>
                     <WorkspacesIcon sx={{ mr: 1 }} />
                     Сгруппировать
                 </Fab>
@@ -198,6 +204,7 @@ export default function AllCases(){
                     Добавить
                 </Fab>
                 <SearchDialog open={searchOpen} onClose={handleCloseSearch}/>
+                <AddTagDialog open={addTag} onClose={handleCloseAddTag}/>
             </Box>
         </ThemeProvider>
     );

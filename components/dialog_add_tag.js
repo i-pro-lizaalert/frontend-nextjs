@@ -12,7 +12,7 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import {useState} from "react";
-export function SearchDialog(props) {
+export function AddTagDialog(props) {
     const { onClose, open } = props;
     const [name, setName] = useState('')
     const handleClose = () => {
@@ -25,14 +25,14 @@ export function SearchDialog(props) {
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Поиск по тегам</DialogTitle>
+            <DialogTitle>Создайте тег</DialogTitle>
             <DialogContent>
                 <TextField
                     margin='normal'
                     required
                     fullWidth
                     multiline
-                    label='Список тегов через запятую'
+                    label='Введите имя тега'
                     value={name}
                     onChange={(e) => {setName(e.target.value)}}
                 />

@@ -52,12 +52,6 @@ export function PhotoItems(props){
                 </ListItemIcon>
                 <ListItemText primary='Все фотографии'/>
             </ListItemButton>
-            <ListItemButton selected={props.select == 4}>
-                <ListItemIcon>
-                    <TagIcon />
-                </ListItemIcon>
-                <ListItemText primary='Поиск по тегам'/>
-            </ListItemButton>
         </React.Fragment>
     );
 }
