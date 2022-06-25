@@ -22,6 +22,7 @@ import {CaseItems, PhotoItems} from '/components/menuItems'
 import AddIcon from '@mui/icons-material/Add';
 import Case from '/components/case'
 import {Add} from "@mui/icons-material";
+import useEffectSkipInitialRender from "/components/hook";
 
 const theme = createTheme();
 
@@ -50,7 +51,7 @@ export default function AllCases(){
             }
         })
     }
-    useEffect(()=>{
+    useEffectSkipInitialRender(()=>{
         fetch(`${window.location.origin}:8088/user/case/all`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`

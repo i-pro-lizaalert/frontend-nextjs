@@ -12,6 +12,8 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import {useState, useEffect} from "react";
+import useEffectSkipInitialRender from "/components/hook";
+
 export function AddFileDialog(props) {
     const { onClose, open } = props;
     const [name, setName] = useState('')
@@ -22,7 +24,7 @@ export function AddFileDialog(props) {
     const handleGoodClose = () =>{
         onClose(name)
     }
-    useEffect(()=>{
+    useEffectSkipInitialRender(()=>{
         fetch(`${window.location.origin}:8088/list`).then(r=>{
             if(r.status == 200){
                 r.json().then(r=>{

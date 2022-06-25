@@ -30,6 +30,7 @@ import {AddCaseDialog} from '/components/dialog_add_case'
 import {SearchDialog} from "/components/dialog_search_tags"
 import {AddTagDialog} from '/components/dialog_add_tag'
 import {AddFileDialog} from "../components/dialog_add_files";
+import useEffectSkipInitialRender from "/components/hook";
 
 const theme = createTheme();
 
@@ -52,11 +53,7 @@ export default function AllCases(){
     const handleCloseAddFile = (val) => {
         console.log(val)
         setAddFile(false)
-    }
-    const handleCloseAddTag = (tag) =>{
-        console.log(tag)
-        setAddTag(false);
-        fetch(`${window.location.origin}:8088/file/tags`,{
+        fetch(`${window.location.origin}:8088/case/file`,{
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -64,14 +61,14 @@ export default function AllCases(){
             },
             body: JSON.stringify(
                 {
-                    "file": {
-                        "path": localStorage.getItem('path')
-                    },
-                    "tags": [
+                    "photos": [
                         {
-                            "name": tag
+                            "path": val
                         }
-                    ]
+                    ],
+                    "case": {
+                        "id": localStorage.getItem('case_id')
+                    }
                 }
             )
         }).then(r=>{
@@ -82,6 +79,10 @@ export default function AllCases(){
                 })
             }
         })
+    }
+    const handleCloseAddTag = (tag) =>{
+        console.log(tag)
+        setAddTag(false);
     }
     const handleCloseSearch = (val) => {
         console.log(val)
@@ -98,7 +99,7 @@ export default function AllCases(){
             }
         })
     }
-    useEffect(()=>{
+    useEffectSkipInitialRender(()=>{
         if (!once) {
             setData([]);
             console.log(localStorage.photos)

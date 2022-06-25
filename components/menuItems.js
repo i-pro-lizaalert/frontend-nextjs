@@ -52,7 +52,7 @@ export function PhotoItems(props){
                 </ListItemIcon>
                 <ListItemText primary='Все фотографии'/>
             </ListItemButton>
-            <ListItemButton selected={props.select == 3} onClick={allPhotos}>
+            <ListItemButton selected={props.select == 4} onClick={allPhotos}>
                 <ListItemIcon>
                     <TagIcon />
                 </ListItemIcon>

@@ -24,6 +24,7 @@ import Case from '/components/case'
 import {Add} from "@mui/icons-material";
 import {AddCaseDialog} from "/components/dialog_add_case"
 const theme = createTheme();
+import useEffectSkipInitialRender from "/components/hook";
 
 export default function AllCases(){
     const [open, setOpen] = useState(false);
@@ -68,7 +69,7 @@ export default function AllCases(){
 
     }
     const [data, setData] = useState([]);
-    useEffect(()=>{
+    useEffectSkipInitialRender(()=>{
         fetch(`${window.location.origin}:8088/case/all`).then(r=>{
             if(r.status == 200){
                 r.json().then(r=>{

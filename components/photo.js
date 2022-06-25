@@ -29,7 +29,7 @@ export default function Photo(props) {
         <Rnd
             default={{
                 x: Math.random()*1000,
-                y: Math.random()*1000,
+                y: Math.random()*500,
                 width: 400,
                 height: 400,
             }}
