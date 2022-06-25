@@ -3,11 +3,33 @@ import {Box, Button, Card, CardActions, CardContent, CardMedia, Typography} from
 import Tag from '/components/tags'
 
 export default function Photo(props) {
+    function handleDelete(){
+        fetch(`${window.location.origin}:8088/case/file`, {
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                photos: [
+                    {
+                        path: props.source
+                    }
+                ],
+                case: {
+                    id: localStorage.case_id
+                }
+            })
+        }).then(r=>{
+                document.location.href='/main';
+            }
+        )
+    }
     return (
         <Rnd
             default={{
-                x: 0,
-                y: 0,
+                x: Math.random()*1000,
+                y: Math.random()*1000,
                 width: 400,
                 height: 400,
             }}
@@ -36,8 +58,8 @@ export default function Photo(props) {
                     </Box>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Удалить фото</Button>
-                    <Button size="small">Скачать фото</Button>
+                    <Button size="small" onClick={handleDelete}>Исключить фото</Button>
+                    <Button size="small" href={props.photo}>Скачать фото</Button>
                 </CardActions>
             </Card>
         </Rnd>

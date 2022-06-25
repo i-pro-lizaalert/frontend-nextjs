@@ -29,12 +29,24 @@ export function CaseItems  (props) {
 }
 
 export function PhotoItems(props){
+    function allPhotos(){
+        fetch(`${window.location.origin}:8088/list`).then(r=>{
+            if(r.status == 200){
+                r.json().then(r=>{
+                    console.log(r)
+                    localStorage.setItem('photos', JSON.stringify(r))
+                    document.location.href = '/main'
+
+                })
+            }
+        })
+    }
     return (
         <React.Fragment>
             <Typography variant='h6' color='inherit' sx={{ml: 2, mt: 2, mb: 1}}>
                 Фотографии
             </Typography>
-            <ListItemButton selected={props.select == 3} href='/main'>
+            <ListItemButton selected={props.select == 3} onClick={allPhotos}>
                 <ListItemIcon>
                     <InsertPhotoIcon />
                 </ListItemIcon>
