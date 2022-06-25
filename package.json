@@ -15,7 +15,10 @@
     "@mui/material": "^5.8.5",
     "next": "12.1.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-moveable": "^0.33.0",
+    "react-rnd": "^10.3.7",
+    "react-zoomable-ui": "^0.9.1"
   },
   "devDependencies": {
     "eslint": "8.18.0",

@@ -22,14 +22,19 @@ import {CaseItems, PhotoItems} from '/components/menuItems'
 import AddIcon from '@mui/icons-material/Add';
 import Case from '/components/case'
 import {Add} from "@mui/icons-material";
-
+import {AddCaseDialog} from "/components/dialog_add_case"
 const theme = createTheme();
 
 export default function AllCases(){
     const [open, setOpen] = useState(false);
+    const [addCase, setAddCase] = useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
+    const handleClose = (val) => {
+        console.log(val)
+        setAddCase(false);
+    }
     let data = [
         {
             name: 'Необработанное',
@@ -135,10 +140,13 @@ export default function AllCases(){
                 position:'fixed',
                 bottom: '3em',
                 right: '3em'
-            }}>
+            }}
+                onClick={() => {setAddCase(true)}}
+            >
                 <AddIcon sx={{ mr: 1 }} />
                 Добавить
             </Fab>
+            <AddCaseDialog open={addCase} onClose={handleClose}/>
         </ThemeProvider>
     );
 }

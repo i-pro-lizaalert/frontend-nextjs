@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {CaseItems, PhotoItems} from '/components/menuItems'
 import AddIcon from '@mui/icons-material/Add';
 import Case from '/components/case'
@@ -30,34 +30,41 @@ export default function AllCases(){
     const toggleDrawer = () => {
         setOpen(!open);
     };
-    let data = [
-        {
-            name: 'Необработанное',
-            photos: 120,
-            participated: 23
-        },
-        {
-            name: 'Для СМИ',
-            photos: 1231,
-            participated: 5
-        },
-        {
-            name: 'Волонтеры',
-            photos: 1002,
-            participated: 23
-        },
-        {
-            name: 'Весенние вылазки',
-            photos: 300,
-            participated: 43
-        },
-        {
-            name: 'Зимние поиски',
-            photos: 312,
-            participated: 36
-        },
-
-    ]
+    const [data, setData] = useState([]);
+    useEffect(()=>{
+        fetch(`${window.location.origin}:8088/case/all`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(r=>{
+            if(r.status == 200){
+                r.json().then(r=>{
+                    console.log(r)
+                })
+            }else{
+                r.json().then(r=>{
+                    console.log(r)
+                })
+            }
+        })
+    },[])
+    // setTimeout(()=>{
+    //     fetch(`${window.location.origin}:8088/case/all`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem('token')}`
+    //         }
+    //     }).then(r => {
+    //         if (r.status == 200) {
+    //             res.json().then((res) => {
+    //                 console.log(res);
+    //             })
+    //         } else {
+    //             res.json().then((res) => {
+    //                 console.log(res['detatils']);
+    //             })
+    //         }
+    //     }), 1000
+    // })
     return (
         <ThemeProvider theme={theme}>
             <AppBar position='static'>
@@ -108,14 +115,14 @@ export default function AllCases(){
                     <Case key={res.name} name={res.name} photos={res.photos} participated={res.participated}/>
                 )}
             </Container>
-            <Fab variant="extended" sx={{
-                position:'fixed',
-                bottom: '3em',
-                right: '3em'
-            }}>
-                <AddIcon sx={{ mr: 1 }} />
-                Добавить
-            </Fab>
+            {/*<Fab variant="extended" sx={{*/}
+            {/*    position:'fixed',*/}
+            {/*    bottom: '3em',*/}
+            {/*    right: '3em'*/}
+            {/*}}>*/}
+            {/*    <AddIcon sx={{ mr: 1 }} />*/}
+            {/*    Добавить*/}
+            {/*</Fab>*/}
         </ThemeProvider>
     );
 }
