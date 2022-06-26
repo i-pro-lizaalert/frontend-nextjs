@@ -25,11 +25,25 @@ export function AddFileDialog(props) {
         onClose(name)
     }
     useEffectSkipInitialRender(()=>{
+        setData([])
         fetch(`${window.location.origin}:8088/list`).then(r=>{
             if(r.status == 200){
                 r.json().then(r=>{
-                    console.log(r);
-                    setData(r);
+                    let temp = []
+                    r.forEach(r=>{
+                        temp.push(fetch(`${window.location.origin}:8088/file?path=${r}`))
+                    })
+                    Promise.all(temp).then(responses=>{
+                        responses.forEach(res=>{
+                            if (res.status == 200)
+                                res.json().then(res=>{
+                                    console.log(res)
+                                    setData(state => [...state, res])
+
+                                })
+                        })
+                        setData(state => [...new Set(state)])
+                    })
                 })
             }
         })
@@ -66,9 +80,12 @@ export function AddFileDialog(props) {
                         </Typography>
                         <Divider sx={{mb: 2}}/>
                         {data.map((r)=>
-                            <Typography key={r}>
-                                {r}
-                            </Typography>
+                            <Box key={r.path} sx={{display: 'flex', flexDirection: 'row'}}>
+                                <Avatar sx={{mr: 1}} src={`${window.location.origin}:8088/`+r.path}/>
+                                <Typography key={r}>
+                                    {r.photo.source}
+                                </Typography>
+                            </Box>
                         )}
                     </Box>
                 </Box>
