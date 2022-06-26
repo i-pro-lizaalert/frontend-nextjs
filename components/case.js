@@ -1,8 +1,8 @@
 import {Box, Button, Card, Typography} from "@mui/material";
 
 
-export default function Case(props){
-    function redirect(){
+export default function Case(props) {
+    function redirect() {
         localStorage.setItem('case_id', props.id)
         fetch(`${window.location.origin}:8088/user/case`, {
             method: 'POST',
@@ -11,12 +11,13 @@ export default function Case(props){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({id: props.id})
-        }).then(r=>{
-            if(r.status == 200){
-                document.location.href='/main'
+        }).then(r => {
+            if (r.status == 200) {
+                document.location.href = '/main'
             }
         })
     }
+
     return (
         <Card sx={{
             m: 2,
@@ -56,13 +57,15 @@ export default function Case(props){
                 display: 'flex',
                 justifyContent: 'space-around'
             }}>
-                <Button sx={{m:'auto', mt:2}} variant="text" onClick={redirect}>
+                <Button sx={{m: 'auto', mt: 2}} variant="text" onClick={redirect}>
                     Перейти
                 </Button>
-                {(props.action==1)?
-                    <Button sx={{m:'auto', mt:2}} variant="text" onClick={()=>{props.handleClick(props.id)}}>
+                {(props.action == 1) ?
+                    <Button sx={{m: 'auto', mt: 2}} variant="text" onClick={() => {
+                        props.handleClick(props.id)
+                    }}>
                         Удалить
-                    </Button>:
+                    </Button> :
                     <div></div>
                 }
             </Box>

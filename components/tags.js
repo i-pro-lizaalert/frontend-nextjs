@@ -1,7 +1,7 @@
-import {Button, Card, CardActions, CardContent, CardMedia, Chip, Typography} from "@mui/material";
+import {Chip} from "@mui/material";
 
 export default function Tag(props) {
     return (
-        <Chip label={props.name} sx={{mx:1}}/>
+        <Chip label={props.name} sx={{mx: 1}}/>
     )
 }

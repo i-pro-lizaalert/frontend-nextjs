@@ -1,16 +1,16 @@
-import {Avatar, Container, TextField, Box, Typography, Button, Link} from '@mui/material'
+import {Avatar, Box, Button, Container, Link, TextField, Typography} from '@mui/material'
 import LockIcon from '@mui/icons-material/Lock';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useState, useEffect} from "react";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useState} from "react";
 
 const theme = createTheme();
 
-export default function Login(){
+export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const handleSubmit = (event)=> {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(username,password)
+        console.log(username, password)
         fetch(`${window.location.origin}:8088/login`, {
             method: 'POST',
             headers: {
@@ -54,7 +54,9 @@ export default function Login(){
                             id='login'
                             label='Логин'
                             value={username}
-                            onChange={(e) => {setUsername(e.target.value)}}
+                            onChange={(e) => {
+                                setUsername(e.target.value)
+                            }}
                         />
                         <TextField
                             margin='normal'
@@ -64,22 +66,24 @@ export default function Login(){
                             label='Пароль'
                             type='password'
                             value={password}
-                            onChange={(e) => {setPassword(e.target.value)}}
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                         >
                             Войти
                         </Button>
                     </Box>
                     <Box
                         sx={{
-                            display:'flex',
+                            display: 'flex',
                             flexDirection: 'column',
-                            alignItems:'flex-end',
+                            alignItems: 'flex-end',
                             width: '100%'
                         }}
                     >

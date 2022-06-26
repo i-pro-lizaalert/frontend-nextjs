@@ -1,11 +1,11 @@
-import React,  { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 const useEffectSkipInitialRender = (callback, dataArr) => {
     const [data, setData] = useState(null);
     const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render
 
     useEffect(() => {
-        if(isInitialRender.current){// skip initial execution of useEffect
+        if (isInitialRender.current) {// skip initial execution of useEffect
             isInitialRender.current = false;// set it to false so subsequent changes of dependency arr will make useEffect to execute
             return;
         }

@@ -3,7 +3,7 @@ import {Box, Button, Card, CardActions, CardContent, CardMedia, Typography} from
 import Tag from '/components/tags'
 
 export default function Photo(props) {
-    function handleDelete(){
+    function handleDelete() {
         fetch(`${window.location.origin}:8088/case/file`, {
             method: "DELETE",
             headers: {
@@ -20,21 +20,22 @@ export default function Photo(props) {
                     id: localStorage.case_id
                 }
             })
-        }).then(r=>{
-                document.location.href='/main';
+        }).then(r => {
+                document.location.href = '/main';
             }
         )
     }
+
     return (
         <Rnd
             default={{
-                x: Math.random()*1000,
-                y: Math.random()*500,
+                x: Math.random() * 1000,
+                y: Math.random() * 500,
                 width: 400,
                 height: 400,
             }}
         >
-            <Card sx={{ maxWidth: 3000, maxHeight: 3000, width: '100%', height: '100%' }}>
+            <Card sx={{maxWidth: 3000, maxHeight: 3000, width: '100%', height: '100%'}}>
                 <CardMedia
                     component="img"
                     height="70%"
@@ -52,7 +53,7 @@ export default function Photo(props) {
                         flexDirection: 'row',
                         flexWrap: 'wrap'
                     }}>
-                        {props.tags.map(r=>
+                        {props.tags.map(r =>
                             <Tag key={r.name} name={r.name}/>
                         )}
                     </Box>
@@ -60,7 +61,7 @@ export default function Photo(props) {
                 <CardActions>
                     <Button size="small" onClick={handleDelete}>Исключить фото</Button>
                     <Button size="small" href={props.photo}>Скачать фото</Button>
-                    <Button size="small" onClick={()=>{
+                    <Button size="small" onClick={() => {
                         localStorage.setItem('path', props.source);
                         props.addTagDialogOpen();
                     }}>Добавить тег</Button>

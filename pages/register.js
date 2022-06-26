@@ -1,16 +1,16 @@
-import {Avatar, Container, TextField, Box, Typography, Button, Link} from '@mui/material'
+import {Avatar, Box, Button, Container, Link, TextField, Typography} from '@mui/material'
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useState} from 'react'
 
 const theme = createTheme();
 
-export default function Register(){
+export default function Register() {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const handleSubmit = (event)=>{
+    const handleSubmit = (event) => {
         event.preventDefault();
         let output = new FormData();
         output.append('name', name);
@@ -66,7 +66,9 @@ export default function Register(){
                             id='surname'
                             label='Фамилия аккаунта'
                             value={surname}
-                            onChange={(e) => {setSurname(e.target.value)}}
+                            onChange={(e) => {
+                                setSurname(e.target.value)
+                            }}
                         />
                         <TextField
                             margin='normal'
@@ -75,7 +77,9 @@ export default function Register(){
                             id='login'
                             label='Логин'
                             value={username}
-                            onChange={(e) => {setUsername(e.target.value)}}
+                            onChange={(e) => {
+                                setUsername(e.target.value)
+                            }}
                         />
                         <TextField
                             margin='normal'
@@ -85,22 +89,24 @@ export default function Register(){
                             label='Пароль'
                             type='password'
                             value={password}
-                            onChange={(e) => {setPassword(e.target.value)}}
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                         >
                             Зарегистрироваться
                         </Button>
                     </Box>
                     <Box
                         sx={{
-                            display:'flex',
+                            display: 'flex',
                             flexDirection: 'column',
-                            alignItems:'flex-end',
+                            alignItems: 'flex-end',
                             width: '100%'
                         }}
                     >
