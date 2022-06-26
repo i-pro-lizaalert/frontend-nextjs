@@ -52,7 +52,7 @@ export function PhotoItems(props) {
                 </ListItemIcon>
                 <ListItemText primary='Все фотографии'/>
             </ListItemButton>
-            <ListItemButton selected={props.select == 4} href='https://d28b-31-134-188-248.ngrok.io/docs#/default/predict_prediction_post'>
+            <ListItemButton selected={props.select == 4} href='http://4cb1-31-134-188-248.ngrok.io/docs#/default/predict_prediction_post'>
                 <ListItemIcon>
                     <TagIcon/>
                 </ListItemIcon>
