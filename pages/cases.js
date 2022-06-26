@@ -75,28 +75,28 @@ export default function AllCases(){
                 r.json().then(r=>{
                     console.log(r)
                     r.forEach((e,t)=>{
-                        fetch(`${window.location.origin}:8088/case/user/all?id=${e.id}`).then(f=>{
-                            if (f.status == 200){
-                                f.json().then(f=>{
-                                    r[t].participated = f.length
-                                    setData(r)
-                                })
-                            }
-                        })
-                        // fetch(`${window.location.origin}:8088/case/file?case_id=${e.id}`,{
-                        //     headers: {
-                        //         'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                        //         'Content-Type': 'application/json'
-                        //     }
-                        // }).then(f=>{
+                        // fetch(`${window.location.origin}:8088/case/user/all?id=${e.id}`).then(f=>{
                         //     if (f.status == 200){
                         //         f.json().then(f=>{
-                        //             console.log(r)
                         //             r[t].participated = f.length
                         //             setData(r)
                         //         })
                         //     }
                         // })
+                        fetch(`${window.location.origin}:8088/case/file?case_id=${e.id}`,{
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(f=>{
+                            if (f.status == 200){
+                                f.json().then(f=>{
+                                    console.log(r)
+                                    r[t].photos = f.length
+                                    setData(r)
+                                })
+                            }
+                        })
                     })
 
                 })
