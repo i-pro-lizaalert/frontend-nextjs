@@ -52,11 +52,11 @@ export function PhotoItems(props){
                 </ListItemIcon>
                 <ListItemText primary='Все фотографии'/>
             </ListItemButton>
-            <ListItemButton selected={props.select == 4} onClick={allPhotos}>
+            <ListItemButton selected={props.select == 4} href='/model'>
                 <ListItemIcon>
                     <TagIcon />
                 </ListItemIcon>
-                <ListItemText primary='Автоматическое проставление тегов'/>
+                <ListItemText primary='Получить теги изображения'/>
             </ListItemButton>
         </React.Fragment>
     );
