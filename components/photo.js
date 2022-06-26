@@ -52,9 +52,9 @@ export default function Photo(props) {
                         flexDirection: 'row',
                         flexWrap: 'wrap'
                     }}>
-                        {props.tags.map(r=>{
-                            <Tag key={r.id} name={r.name}/>
-                        })}
+                        {props.tags.map(r=>
+                            <Tag key={r.name} name={r.name}/>
+                        )}
                     </Box>
                 </CardContent>
                 <CardActions>

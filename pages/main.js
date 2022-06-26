@@ -81,8 +81,28 @@ export default function AllCases(){
         })
     }
     const handleCloseAddTag = (tag) =>{
-        console.log(tag)
+        console.log(tag,localStorage.path)
         setAddTag(false);
+        fetch(`${window.location.origin}:8088/file/tags`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    "file": {
+                        "path": localStorage.path
+                    },
+                    "tags": [
+                        {
+                            "name": tag
+                        }
+                    ]
+                }
+            )
+        }).then(r=>{
+
+        })
     }
     const handleCloseSearch = (val) => {
         console.log(val)
@@ -119,6 +139,7 @@ export default function AllCases(){
                     responses.forEach(res=>{
                         if (res.status == 200)
                             res.json().then(res=>{
+                                console.log(res)
                                 setData(state => [...state, res])
 
                             })
@@ -206,7 +227,7 @@ export default function AllCases(){
                 width: '100%',
                 height: '10000px'
             }}>
-                {[...new Set(data)].map(r=>
+                {data.map(r=>
                     <Photo
                         source={r.photo.source}
                         key={r.path}

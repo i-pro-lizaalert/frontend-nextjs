@@ -2,6 +2,6 @@ import {Button, Card, CardActions, CardContent, CardMedia, Chip, Typography} fro
 
 export default function Tag(props) {
     return (
-        <Chip label={props.name} />
+        <Chip label={props.name} sx={{mx:1}}/>
     )
 }
