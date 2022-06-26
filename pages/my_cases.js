@@ -85,23 +85,6 @@ export default function AllCases(){
         })
 
     },[])
-    // setTimeout(()=>{
-    //     fetch(`${window.location.origin}:8088/case/all`, {
-    //         headers: {
-    //             'Authorization': `Bearer ${localStorage.getItem('token')}`
-    //         }
-    //     }).then(r => {
-    //         if (r.status == 200) {
-    //             res.json().then((res) => {
-    //                 console.log(res);
-    //             })
-    //         } else {
-    //             res.json().then((res) => {
-    //                 console.log(res['detatils']);
-    //             })
-    //         }
-    //     }), 1000
-    // })
     return (
         <ThemeProvider theme={theme}>
             <AppBar position='static'>
@@ -152,14 +135,6 @@ export default function AllCases(){
                     <Case key={res.name} id={res.id} name={res.name} photos={res.photos} action={1} handleClick={handleClick} participated={res.participated}/>
                 )}
             </Container>
-            {/*<Fab variant="extended" sx={{*/}
-            {/*    position:'fixed',*/}
-            {/*    bottom: '3em',*/}
-            {/*    right: '3em'*/}
-            {/*}}>*/}
-            {/*    <AddIcon sx={{ mr: 1 }} />*/}
-            {/*    Добавить*/}
-            {/*</Fab>*/}
         </ThemeProvider>
     );
 }

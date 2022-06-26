@@ -44,12 +44,12 @@ export default function Case(props){
                 <Typography color='text.secondary' sx={{
                     fontSize: 14
                 }}>
-                    Количество фотографий: {props.photos}
+                    Количество участников: -
                 </Typography>
                 <Typography color='text.secondary' sx={{
-                    fontSize: 14
+                    fontSize: 14, textAlign: 'right'
                 }}>
-                    Количество участников: {props.participated}
+                    Количество фотографий: {props.photos}
                 </Typography>
             </Box>
             <Box sx={{
